@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding:0;
+  outline: 0;
+  box-sizing: border-box;
+}
+body{
+  -webkit-font-smoothing: antialiased;
+}
+body, input, button {
+  font: 16px sans-serif;
+  font-family: "sans-pro",sans-serif;
+}
+h1,h2, h3, h4, h5,span, textarea,label{
+  font-family: "sans-pro",sans-serif;
+}
+
+button{
+  cursor: pointer;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest",
+    "dev": "ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.9.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "csv": "^6.3.6",
+    "csv-parser": "^3.0.0",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "sqlite3": "^5.1.7",
+    "supertest": "^6.3.4",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/multer": "^1.4.11",
+    "@types/supertest": "^6.0.2",
+    "multer": "^1.4.5-lts.1",
+    "prisma": "^5.9.1",
+    "ts-jest": "^29.1.2"
+  }
+}
