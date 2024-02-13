@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
+import { UserInterface } from "../types/interfaces";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import UploadButtonComponent from "./components/upload-button";
 import SearchComponent from "./components/search";
 import ListComponent from "./components/list";
 import FileService from "../services/FilesService";
 import UserService from "../services/UserService";
-import { UserInterface } from "../types/interfaces";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import ConfirmFileModal from "./components/file-modal";
 
 const userService = new UserService();
 
@@ -18,13 +20,22 @@ function App() {
   const [isQuerySearch, updateQueryStatus] = useState<boolean>(false);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [tempFile, setTempFile] = useState<object | null>(null);
+
+  const [isModalOpen, setOpenModal] = useState<boolean>(false);
 
   const fetchUsers = useCallback(async () => {
-    const res = await userService.fetchUsers(current);
-
-    setUsers(res.data.users);
-    setTotalItems(res.data.total);
-    setTotalPages(res.data.totalPages);
+    
+    try {
+      const res = await userService.fetchUsers(current);
+      
+      setUsers(res.data.users);
+      setTotalItems(res.data.total);
+      setTotalPages(res.data.totalPages);
+    } catch (error) {
+      showToast("Not able to fecth users", "error");
+    }
+      
   }, [setUsers, setTotalItems, setTotalPages, current]);
 
   useEffect(() => {
@@ -46,19 +57,29 @@ function App() {
     });
   };
 
-  const onUploadDocument = async (file: any) => {
-    const service = new FileService();
+  const onSubmitFile = async (res: boolean) => {
+    if (res) {
+      const service = new FileService();
 
-    const response = await service.uploadFile(file);
+      const response = await service.uploadFile(tempFile!);
+      const message = (await response.json()).message;
 
-    const message = (await response.json()).message;
-    if (response.status === 200) {
-      showToast(message, "success");
-    } else {
-      showToast(message, "error");
+      if (response.status === 200) {
+        showToast(message, "success");
+      } else {
+        showToast(message, "error");
+      }
+
+      await fetchUsers();
     }
 
-    await fetchUsers();
+    setOpenModal(false);
+    setTempFile(null);
+  };
+
+  const onUploadDocument = async (file: any) => {
+    setTempFile(() => file);
+    setOpenModal(true);
   };
 
   const onSubmitSearch = async (query: string) => {
@@ -87,18 +108,13 @@ function App() {
       />
 
       <UploadButtonComponent onSubmit={onUploadDocument} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+      <ConfirmFileModal
+        closeModal={onSubmitFile}
+        filename={tempFile ? (tempFile as any).name : ""}
+        modalIsOpen={isModalOpen}
+        size={tempFile ? (tempFile as any).size + " KB" : ""}
       />
+
       <ToastContainer />
     </div>
   );

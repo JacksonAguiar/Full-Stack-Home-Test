@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-// import instance from "../../infra/cache/redis";
+import instance from "../../infra/cache/redis";
 import UsersService from "./service";
 
 import { UserInterface } from "../../datatypes/interfaces";
@@ -27,15 +27,15 @@ export default class UserController {
       users = await service.fetchByQuery(query, limit);
     
     } else {
-      // const cachedData = await instance.get("users:level1");
-      const cachedData = null;
+      const cachedData = await instance.get("users:level1");
+      // const cachedData = null;
 
       if (page == 1 && cachedData) {
         
-        // const cachedTotal = await instance.get("users:total");
+        const cachedTotal = await instance.get("users:total");
 
         users = JSON.parse(cachedData);
-        // total = JSON.parse(cachedTotal!);
+        total = JSON.parse(cachedTotal!);
 
       } else {
         
@@ -44,10 +44,10 @@ export default class UserController {
         total = count;
         users = data;
 
-        // if(page == 1){
-        //   await instance.set("users:level1", JSON.stringify(data));
-        //   await instance.set("users:total", count);
-        // }
+        if(page == 1){
+          await instance.set("users:level1", JSON.stringify(data));
+          await instance.set("users:total", count);
+        }
       }
     }
 

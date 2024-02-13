@@ -18,57 +18,59 @@ const ListComponent = ({
 }: ListProps) => {
   return (
     <>
-      {!hiddenPagination && (
-        <PaginationWidget
-          current={current}
-          total={total}
-          totalPages={totalPages}
-        />
-      )}
-
       {data.length === 0 ? (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center mt-[25%]">
           <h1 className="font-medium text-3xl text-gray-400">
             No data to show
           </h1>
         </div>
       ) : (
-        <main
-          data-testid="list-test"
-          className="grid mb-8 sm:grid-cols-2 md:mb-12 md:grid-cols-3 lg:grid-cols-4 bg-white "
-        >
-          {data.map((e, i) => {
-            return (
-              <figure
-                key={i}
-                data-testid="card-test"
-                className="card-test flex flex-col m-1 rounded-xl items-center justify-center p-6 text-center bg-blue-500 dark:bg-gray-800 "
-              >
-                <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-                  <h3 className="text-xl font-semibold text-white">{e.name}</h3>
-                  <p className="my-4 text-gray-200">
-                    {e.city},{e.country}
-                  </p>
-                </blockquote>
-                <figcaption className="flex items-center justify-center ">
-                  <div className="space-y-0.5 font-medium text-white text-center rtl:text-right ms-3">
-                    <div>Favourite sport</div>
-                    <div className="text-sm text-gray-300">
-                      {e.favorite_sport}
+        <>
+          {!hiddenPagination && (
+            <PaginationWidget
+              current={current}
+              total={total}
+              totalPages={totalPages}
+            />
+          )}
+          <main
+            data-testid="list-test"
+            className="grid mb-8 sm:grid-cols-2 md:mb-12 md:grid-cols-3 lg:grid-cols-4 bg-white "
+          >
+            {data.map((e, i) => {
+              return (
+                <figure
+                  key={i}
+                  data-testid="card-test"
+                  className="card-test flex flex-col m-1 rounded-xl items-center justify-center p-6 text-center bg-blue-500 dark:bg-gray-800 "
+                >
+                  <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                    <h3 className="text-xl font-semibold text-white">
+                      {e.name}
+                    </h3>
+                    <p className="my-4 text-gray-200">
+                      {e.city},{e.country}
+                    </p>
+                  </blockquote>
+                  <figcaption className="flex items-center justify-center ">
+                    <div className="space-y-0.5 font-medium text-white text-center rtl:text-right ms-3">
+                      <div>Favourite sport</div>
+                      <div className="text-sm text-gray-300">
+                        {e.favorite_sport}
+                      </div>
                     </div>
-                  </div>
-                </figcaption>
-              </figure>
-            );
-          })}
-        </main>
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </main>
+        </>
       )}
     </>
   );
 };
 
 export default ListComponent;
-
 
 const PaginationWidget = ({
   current,

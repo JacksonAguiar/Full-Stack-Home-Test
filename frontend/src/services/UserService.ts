@@ -1,7 +1,7 @@
 export default class UserService {
-  async fetchUsers(page=1) {
+  async fetchUsers(page = 1) {
     const response = await fetch(
-      "http://localhost:3000/api/users?p="+page,
+      process.env.REACT_APP_BACKEND_URL + "api/users?p=" + page,
       {
         method: "GET",
       }
@@ -12,7 +12,7 @@ export default class UserService {
 
   async fetchUsersByQuery(query: string) {
     const response = await fetch(
-      "http://localhost:3000/api/users?q=" + query,
+      process.env.REACT_APP_BACKEND_URL + "api/users?q=" + query,
       {
         method: "GET",
       }

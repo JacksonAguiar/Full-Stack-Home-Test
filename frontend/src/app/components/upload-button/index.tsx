@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-// import { FiUpload } from "react-icons/fi";
 
 interface ButtonProps {
   onSubmit: Function;
@@ -9,28 +8,27 @@ const UploadButtonComponent: React.FC<ButtonProps> = ({
   onSubmit,
   ...props
 }: ButtonProps) => {
-  const hiddenFileInput = useRef<any>(null);
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
 
   const handleClick = (event: any) => {
     if (hiddenFileInput.current) hiddenFileInput.current.click();
   };
   const handleChange = (event: any) => {
     const fileUploaded = event.target.files[0];
+    if (hiddenFileInput.current) hiddenFileInput.current.value = "";
     onSubmit(fileUploaded);
   };
 
   return (
     <div>
-      {/* <label htmlFor="input" className={"hidden"}> */}
-      {/* <FiUpload /> */}
       <input
         type="file"
         accept=".csv"
+        className="hidden"
         data-testid="file-input"
         onChange={handleChange}
         ref={hiddenFileInput}
       />
-      {/* </label> */}
 
       <button
         type="button"

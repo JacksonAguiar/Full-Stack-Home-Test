@@ -1,12 +1,14 @@
 export default class FileService {
 
-    async uploadFile(file: string) {
-      const response = await fetch("http://localhost:3000/api/files", {
+    async uploadFile(file: any) {
+
+      const formData = new FormData();
+    formData.append('file', file);
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+"api/files", {
         method: "POST",
         headers: {
-            "Content-type":""
         },
-        body: JSON.stringify({file})
+        body: formData
 
       });
   
