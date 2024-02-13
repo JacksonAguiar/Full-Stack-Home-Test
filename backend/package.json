@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "test": "npx jest",
-    "dev": "ts-node src/server.ts"
+    "dev": "ts-node src/server.ts",
+    "build": "tsup src",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +36,7 @@
     "@types/supertest": "^6.0.2",
     "multer": "^1.4.5-lts.1",
     "prisma": "^5.9.1",
-    "ts-jest": "^29.1.2"
+    "ts-jest": "^29.1.2",
+    "tsup": "^8.0.2"
   }
 }
