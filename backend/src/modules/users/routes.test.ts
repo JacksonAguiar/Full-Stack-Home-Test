@@ -2,7 +2,8 @@ import request from "supertest";
 import app from "./index.routes";
 
 describe("Users routes tests", () => {
-  
+
+ 
   it("should return all data with pagination configuration", async () => {
 
     const response = await request(app).get("/");
@@ -13,6 +14,7 @@ describe("Users routes tests", () => {
     expect(response.body.data).toHaveProperty("total");
     expect(response.body.data).toHaveProperty("totalPages");
     expect(response.body.data).toHaveProperty("users");
+
   });
 
   it("should return data by query filter - search only one", async () => {
@@ -34,5 +36,5 @@ describe("Users routes tests", () => {
     expect(response.body.data.users.length).toBe(0);
 
   });
-
+  
 });
