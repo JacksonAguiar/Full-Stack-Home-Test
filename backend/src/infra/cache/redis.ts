@@ -1,6 +1,7 @@
 import redis from "ioredis";
+import 'dotenv/config'
 
-let instance;
+let instance: redis;
 
 try {
    instance = new redis(process.env.REDIS_URL)

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-
+import instance from "../../infra/cache/redis";
 import { parse } from "csv-parse/sync";
 import { UserInterface } from "../../datatypes/interfaces";
 
@@ -8,14 +8,13 @@ import FileService from "./service";
 const service = new FileService();
 
 export default class FileController {
-
   async ProcessFile(req: Request, res: Response) {
     const file = req.file;
 
     if (!file) {
       return res.status(500).json({ message: "No csv file uploaded." });
     }
-    if(file.originalname && !file.originalname.endsWith(".csv")){
+    if (file.originalname && !file.originalname.endsWith(".csv")) {
       return res.status(500).json({ message: "invalid file uploaded." });
     }
 
@@ -26,8 +25,8 @@ export default class FileController {
         delimiter: ",",
       });
 
-     await service.createMany(records);
-
+      await service.createMany(records);
+      await instance.del(["users:level1", "users:total"]);
     } catch (error) {
       res.json({ message: error }).status(500);
     }
